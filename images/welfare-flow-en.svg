@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" font-family="Inter, -apple-system, sans-serif">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="450" fill="#FAFAFA"/>
+  
+  <!-- User Input (Start) -->
+  <rect x="30" y="185" width="120" height="50" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="2" filter="url(#shadow)"/>
+  <text x="90" y="215" text-anchor="middle" fill="#1E40AF" font-size="13" font-weight="600">User Input</text>
+  
+  <!-- Arrow 1 -->
+  <path d="M150 210 L180 210" stroke="#9CA3AF" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Intent Detection (Diamond) -->
+  <polygon points="250,170 320,210 250,250 180,210" fill="#FEE2E2" stroke="#F87171" stroke-width="2" filter="url(#shadow)"/>
+  <text x="250" y="206" text-anchor="middle" fill="#991B1B" font-size="11" font-weight="600">Intent</text>
+  <text x="250" y="220" text-anchor="middle" fill="#991B1B" font-size="11" font-weight="600">Detection</text>
+  
+  <!-- Branch Labels -->
+  <text x="285" y="155" text-anchor="middle" fill="#6B7280" font-size="10" font-weight="500">Matching Mode</text>
+  <text x="285" y="285" text-anchor="middle" fill="#6B7280" font-size="10" font-weight="500">Detail Mode</text>
+  
+  <!-- Arrow to User Info Extract -->
+  <path d="M320 185 L320 120 L380 120" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+  <polygon points="380,120 372,115 372,125" fill="#9CA3AF"/>
+  
+  <!-- User Info Extraction -->
+  <rect x="380" y="95" width="130" height="50" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2" filter="url(#shadow)"/>
+  <text x="445" y="116" text-anchor="middle" fill="#92400E" font-size="11" font-weight="600">User Info</text>
+  <text x="445" y="132" text-anchor="middle" fill="#92400E" font-size="11" font-weight="600">Extraction</text>
+  
+  <!-- Arrow to Info Sufficient -->
+  <path d="M510 120 L560 120" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+  <polygon points="560,120 552,115 552,125" fill="#9CA3AF"/>
+  
+  <!-- Info Sufficient? (Diamond) -->
+  <polygon points="630,80 700,120 630,160 560,120" fill="#FEE2E2" stroke="#F87171" stroke-width="2" filter="url(#shadow)"/>
+  <text x="630" y="116" text-anchor="middle" fill="#991B1B" font-size="10" font-weight="600">Info</text>
+  <text x="630" y="130" text-anchor="middle" fill="#991B1B" font-size="10" font-weight="600">Sufficient?</text>
+  
+  <!-- No branch - Request More Info -->
+  <path d="M700 100 L750 100 L750 60 L820 60" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+  <polygon points="820,60 812,55 812,65" fill="#9CA3AF"/>
+  <text x="725" y="90" fill="#6B7280" font-size="10">No</text>
+  
+  <rect x="820" y="35" width="130" height="50" rx="8" fill="#FEE2E2" stroke="#F87171" stroke-width="2" filter="url(#shadow)"/>
+  <text x="885" y="56" text-anchor="middle" fill="#991B1B" font-size="11" font-weight="600">Request</text>
+  <text x="885" y="72" text-anchor="middle" fill="#991B1B" font-size="11" font-weight="600">More Info</text>
+  
+  <!-- Yes branch - Welfare Matching -->
+  <path d="M700 140 L750 140 L750 180 L820 180" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+  <polygon points="820,180 812,175 812,185" fill="#9CA3AF"/>
+  <text x="725" y="160" fill="#6B7280" font-size="10">Yes</text>
+  
+  <rect x="820" y="155" width="130" height="50" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="2" filter="url(#shadow)"/>
+  <text x="885" y="176" text-anchor="middle" fill="#166534" font-size="11" font-weight="600">Welfare</text>
+  <text x="885" y="192" text-anchor="middle" fill="#166534" font-size="11" font-weight="600">Program Matching</text>
+  
+  <!-- Detail Mode Branch -->
+  <path d="M320 235 L320 310 L380 310" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+  <polygon points="380,310 372,305 372,315" fill="#9CA3AF"/>
+  
+  <!-- Response Generation -->
+  <rect x="380" y="285" width="130" height="50" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2" filter="url(#shadow)"/>
+  <text x="445" y="306" text-anchor="middle" fill="#92400E" font-size="11" font-weight="600">Response</text>
+  <text x="445" y="322" text-anchor="middle" fill="#92400E" font-size="11" font-weight="600">Generation</text>
+  
+  <!-- Arrow to Matching Mode? -->
+  <path d="M510 310 L560 310" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+  <polygon points="560,310 552,305 552,315" fill="#9CA3AF"/>
+  
+  <!-- Matching Mode? (Diamond) -->
+  <polygon points="630,270 700,310 630,350 560,310" fill="#FEE2E2" stroke="#F87171" stroke-width="2" filter="url(#shadow)"/>
+  <text x="630" y="306" text-anchor="middle" fill="#991B1B" font-size="10" font-weight="600">Matching</text>
+  <text x="630" y="320" text-anchor="middle" fill="#991B1B" font-size="10" font-weight="600">Mode?</text>
+  
+  <!-- Yes - Show Top 3 Cards -->
+  <path d="M700 290 L750 290 L750 250 L820 250" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+  <polygon points="820,250 812,245 812,255" fill="#9CA3AF"/>
+  <text x="725" y="280" fill="#6B7280" font-size="10">Yes</text>
+  
+  <rect x="820" y="225" width="130" height="50" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="2" filter="url(#shadow)"/>
+  <text x="885" y="246" text-anchor="middle" fill="#166534" font-size="11" font-weight="600">Render Top 3</text>
+  <text x="885" y="262" text-anchor="middle" fill="#166534" font-size="11" font-weight="600">Welfare Cards</text>
+  
+  <!-- No - Show Response Only -->
+  <path d="M700 330 L750 330 L750 370 L820 370" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+  <polygon points="820,370 812,365 812,375" fill="#9CA3AF"/>
+  <text x="725" y="350" fill="#6B7280" font-size="10">No</text>
+  
+  <rect x="820" y="345" width="130" height="50" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="2" filter="url(#shadow)"/>
+  <text x="885" y="366" text-anchor="middle" fill="#1E40AF" font-size="11" font-weight="600">Display</text>
+  <text x="885" y="382" text-anchor="middle" fill="#1E40AF" font-size="11" font-weight="600">Response Only</text>
+  
+  <!-- Loop back arrows -->
+  <path d="M885 85 L885 420 L90 420 L90 235" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5,5" fill="none"/>
+  <polygon points="90,235 85,243 95,243" fill="#9CA3AF"/>
+  
+  <path d="M885 395 L885 420" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5,5" fill="none"/>
+  
+  <!-- Chat History Label -->
+  <rect x="420" y="405" width="160" height="30" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="500" y="425" text-anchor="middle" fill="#6B7280" font-size="11" font-weight="500">↻ Update Chat History</text>
+  
+</svg>
