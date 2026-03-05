@@ -627,6 +627,36 @@
     transform: translateY(-1px);
   }
 
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.2rem;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45, 106, 106, 0.3);
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
   /* ==========================================================================
      FOOTER
      ========================================================================== */
@@ -717,7 +747,10 @@
       </div>
     </div>
 
-    <span class="hero-result reveal">Seoul AI Hackathon — Top 20 / 181 teams</span>
+    <div class="hero-actions reveal">
+      <span class="hero-result">Seoul AI Hackathon — Top 20 / 181 teams</span>
+      <a href="https://welfare-compass.streamlit.app" target="_blank" rel="noopener" class="btn-primary">Try Live Demo →</a>
+    </div>
   </section>
 
   <!-- PROBLEM -->
