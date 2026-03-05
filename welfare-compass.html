@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welfare Compass | Yuna Sim</title>
+<meta name="description" content="Welfare Compass: RAG-based conversational AI for Seoul welfare policy navigation. Seoul AI Hackathon Top 20 / 181 teams.">
+<meta property="og:title" content="Welfare Compass — Case Study | Yuna Sim">
+<meta property="og:description" content="RAG-based conversational AI for Seoul welfare policy navigation. Seoul AI Hackathon Top 20 / 181 teams.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://finekiwi.github.io/welfare-compass.html">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -594,7 +599,7 @@
     <div class="hero-meta reveal">
       <div class="hero-meta-item">
         <span class="t-heading-2 hero-meta-label">Timeline</span>
-        <span class="hero-meta-value">November 2025 (2 weeks)</span>
+        <span class="hero-meta-value">Dec 2025 (2-day hackathon)</span>
       </div>
       <div class="hero-meta-item">
         <span class="t-heading-2 hero-meta-label">Team</span>
@@ -655,7 +660,7 @@
       <span>Solution Overview</span>
     </div>
     <div class="content">
-      <p>Welfare Compass is a conversational AI agent that extracts user profile information through natural dialogue and matches it against a comprehensive welfare policy database using RAG (Retrieval-Augmented Generation).</p>
+      <p>Welfare Compass is a conversational AI agent that extracts user profile information through natural dialogue and matches it against a manually curated welfare policy database using RAG (Retrieval-Augmented Generation). For the hackathon, we curated ~100 Seoul welfare programs covering housing, employment, living expenses, and education.</p>
       <p>Instead of requiring users to fill out forms or navigate complex menus, they simply describe their situation: "I'm a 28-year-old freelancer living in Gangnam, looking for housing support." The system automatically extracts relevant attributes and finds matching welfare programs.</p>
     </div>
 
@@ -670,12 +675,12 @@
       <span>System Architecture</span>
     </div>
     <div class="content">
-      <p>I designed a RAG-based architecture using LangGraph for workflow orchestration. The key insight was that welfare policies are frequently updated, so we needed a system that could incorporate changes through document updates alone — without model retraining.</p>
+      <p>I designed a RAG-based pipeline using LangChain for orchestration. The key insight was that welfare policies are frequently updated, so we needed a system that could incorporate changes through document updates alone — without model retraining.</p>
     </div>
 
     <div class="image-container">
-      <img src="images/welfare-architecture.svg" alt="Welfare Compass System Architecture showing Streamlit frontend, LangGraph orchestration, FAISS vector DB, and BM25 ensemble retrieval">
-      <div class="image-caption">System Architecture: User query flows through Streamlit to LangGraph, which orchestrates query rewriting, ensemble retrieval (FAISS + BM25), and GPT response generation.</div>
+      <img src="images/welfare-architecture.svg" alt="Welfare Compass System Architecture showing Streamlit frontend, LangChain orchestration, FAISS vector DB, and BM25 ensemble retrieval">
+      <div class="image-caption">System Architecture: User query flows through Streamlit to the retrieval pipeline, which orchestrates intent detection, ensemble retrieval (FAISS + BM25), and GPT response generation.</div>
     </div>
 
     <div class="image-container">
@@ -687,7 +692,6 @@
       <span class="t-heading-2">Tech Stack</span>
       <div class="tech-stack">
         <span class="tech-tag">Python</span>
-        <span class="tech-tag">LangGraph</span>
         <span class="tech-tag">LangChain</span>
         <span class="tech-tag">FAISS</span>
         <span class="tech-tag">BM25</span>
@@ -710,7 +714,7 @@
       </div>
       <div class="solution-block">
         <h4>Ensemble retrieval with BM25</h4>
-        <p>Combined vector similarity search with BM25 keyword matching. This hybrid approach captured both semantic meaning and exact keyword matches, significantly improving retrieval accuracy.</p>
+        <p>A teammate contributed a BM25 keyword matching module to complement the FAISS vector search. This hybrid ensemble approach captured both semantic meaning and exact keyword matches, significantly improving retrieval accuracy.</p>
       </div>
     </div>
 
