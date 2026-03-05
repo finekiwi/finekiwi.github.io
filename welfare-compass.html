@@ -311,6 +311,112 @@
   }
 
   /* ==========================================================================
+     DISCOVERY — finding → decision mapping
+     ========================================================================== */
+  .discovery-method {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .insight-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .insight-card {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr;
+    align-items: start;
+    gap: 0.75rem;
+  }
+
+  .insight-finding {
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-white);
+  }
+
+  .insight-finding .insight-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .insight-finding h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+  }
+
+  .insight-finding p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .insight-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1.5rem;
+    color: var(--text-light);
+  }
+
+  .insight-decision {
+    padding: 1.25rem;
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .insight-decision .insight-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .insight-decision h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+  }
+
+  .insight-decision p {
+    font-size: 0.88rem;
+    color: #3D3D3D;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .insight-card {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .insight-arrow {
+      padding: 0.25rem 0;
+      transform: rotate(90deg);
+    }
+  }
+
+  /* ==========================================================================
      VIDEO & IMAGE
      ========================================================================== */
   .video-container {
@@ -651,6 +757,76 @@
 
     <div class="highlight-box">
       <p>I reframed the problem: "How can we make scattered, complex welfare information easily searchable through natural language conversation?"</p>
+    </div>
+  </section>
+
+  <!-- USER DISCOVERY -->
+  <section class="reveal">
+    <div class="section-label">
+      <span>User Discovery</span>
+    </div>
+    <div class="content">
+      <p>Before building anything, I conducted informal interviews with ~8 peers in my bootcamp cohort — all Seoul residents in their late 20s, the exact demographic eligible for youth welfare programs.</p>
+      <p>Most had never applied for welfare benefits. The reasons clustered around three patterns:</p>
+    </div>
+
+    <div class="discovery-method">Informal interviews · n ≈ 8 · Bootcamp cohort, late-20s, Seoul residents</div>
+
+    <div class="insight-grid">
+      <!-- Finding 1: Awareness gap -->
+      <div class="insight-card">
+        <div class="insight-finding">
+          <div class="insight-label">Finding</div>
+          <h4>"I didn't know I was eligible"</h4>
+          <p>Participants assumed welfare programs were for low-income households only, unaware that Seoul offers 300+ welfare programs, many of which target young adults.</p>
+        </div>
+        <div class="insight-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div class="insight-decision">
+          <div class="insight-label">Design Decision</div>
+          <h4>Proactive matching</h4>
+          <p>Users don't know what they qualify for, so the system extracts context through conversation and matches programs automatically — no prior knowledge required.</p>
+        </div>
+      </div>
+
+      <!-- Finding 2: Fragmented info -->
+      <div class="insight-card">
+        <div class="insight-finding">
+          <div class="insight-label">Finding</div>
+          <h4>"I tried searching but gave up"</h4>
+          <p>Those who did search found information scattered across Seoul Talk, Bokjiro, and district office websites with no unified entry point. Most gave up within minutes.</p>
+        </div>
+        <div class="insight-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div class="insight-decision">
+          <div class="insight-label">Design Decision</div>
+          <h4>Unified retrieval</h4>
+          <p>Instead of sending users across multiple platforms, we consolidated ~100 curated programs into a single searchable database with ensemble retrieval (FAISS + BM25).</p>
+        </div>
+      </div>
+
+      <!-- Finding 3: High friction -->
+      <div class="insight-card">
+        <div class="insight-finding">
+          <div class="insight-label">Finding</div>
+          <h4>"It's not worth the hassle"</h4>
+          <p>Even when participants found a potentially relevant program, complex eligibility criteria and lengthy application forms made the expected effort feel disproportionate to the uncertain benefit.</p>
+        </div>
+        <div class="insight-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div class="insight-decision">
+          <div class="insight-label">Design Decision</div>
+          <h4>Zero-effort interaction</h4>
+          <p>Instead of forms and filters, users describe their situation in natural language. The system handles eligibility matching and shows benefit details before any application commitment.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p>These findings converged on one insight: the barrier isn't information availability — it's the <strong>effort required to find and process it</strong>. This led us to choose a conversational interface that shifts the burden from user to system.</p>
     </div>
   </section>
 
