@@ -103,6 +103,14 @@
   <path d="M960,65 L975,65 L975,448 L15,448 L15,213 L30,213"
         stroke="#4A8E8E" stroke-width="1.2" stroke-dasharray="5,4" fill="none" marker-end="url(#arrow-teal)"/>
 
+  <!-- Welfare Program Matching right edge → joins right spine -->
+  <path d="M960,185 L975,185"
+        stroke="#4A8E8E" stroke-width="1.2" stroke-dasharray="5,4" fill="none"/>
+
+  <!-- Render Top 3 Welfare Cards right edge → joins right spine -->
+  <path d="M960,255 L975,255"
+        stroke="#4A8E8E" stroke-width="1.2" stroke-dasharray="5,4" fill="none"/>
+
   <!-- Display Response Only right edge → joins right spine -->
   <path d="M960,375 L975,375"
         stroke="#4A8E8E" stroke-width="1.2" stroke-dasharray="5,4" fill="none"/>

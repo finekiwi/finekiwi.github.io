@@ -104,7 +104,7 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(248, 248, 246, 0.88);
+    background: rgba(253, 250, 245, 0.97);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(0,0,0,0.06);
@@ -214,7 +214,7 @@
   }
 
   .hero-meta-value {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: var(--text-primary);
     font-weight: 500;
   }
@@ -270,6 +270,12 @@
     line-height: 1.4;
   }
 
+  .stat-source {
+    font-size: 0.6rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+  }
+
   /* Problem cards — simple, no background card */
   .problem-grid {
     display: grid;
@@ -291,6 +297,43 @@
     font-size: 0.95rem;
     color: #3D3D3D;
     line-height: 1.7;
+  }
+
+  /* Comparison gallery */
+  .comparison-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .comparison-item {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .comparison-item img {
+    width: 100%;
+    height: 240px;
+    object-fit: contain;
+    background: #fff;
+    display: block;
+  }
+
+  .comparison-label {
+    padding: 0.6rem 0.75rem;
+    border-top: 1px solid var(--border-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-light);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .comparison-gallery {
+      grid-template-columns: 1fr;
+    }
   }
 
   /* Highlight — teal left border */
@@ -326,6 +369,46 @@
     margin-bottom: 1.5rem;
   }
 
+  .persona-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-white);
+    margin-bottom: 2rem;
+  }
+
+  .persona-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    object-fit: cover;
+  }
+
+  .persona-info h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+
+  .persona-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .persona-quote {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
   .insight-grid {
     display: grid;
     gap: 1.5rem;
@@ -335,7 +418,7 @@
   .insight-card {
     display: grid;
     grid-template-columns: 1fr 32px 1fr;
-    align-items: start;
+    align-items: stretch;
     gap: 0.75rem;
   }
 
@@ -424,13 +507,52 @@
     border-radius: 6px;
     overflow: hidden;
     border: 1px solid var(--border);
+    position: relative;
+    aspect-ratio: 16 / 9;
+    cursor: pointer;
   }
 
   .video-container iframe {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 100%;
     border: none;
     display: block;
+  }
+
+  .video-poster {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .video-poster .play-btn {
+    width: 64px;
+    height: 64px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+
+  .video-poster:hover .play-btn {
+    background: rgba(0,0,0,0.85);
+  }
+
+  .video-poster .play-btn::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 0 12px 22px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 4px;
   }
 
   .image-container {
@@ -464,8 +586,8 @@
   .screenshot-gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin: 2rem 0;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
   }
   .screenshot-gallery .screenshot-item {
     border: 1px solid var(--border);
@@ -479,7 +601,7 @@
   }
   .screenshot-gallery img {
     width: 100%;
-    height: 360px;
+    height: 280px;
     object-fit: cover;
     object-position: top;
     display: block;
@@ -538,34 +660,78 @@
      CHALLENGES & SOLUTIONS
      ========================================================================== */
   .challenge-group {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr;
+    align-items: stretch;
+    gap: 0.75rem;
     margin-bottom: 2.5rem;
   }
   .challenge-group:last-child { margin-bottom: 0; }
 
   .challenge-block {
-    padding: 1.25rem 0;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-secondary);
+  }
+
+  .challenge-block .challenge-label,
+  .solution-block .challenge-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .challenge-block .challenge-label {
+    color: var(--text-light);
+  }
+
+  .solution-block .challenge-label {
+    color: var(--accent);
   }
 
   .challenge-block h4,
   .solution-block h4 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.6rem;
   }
 
   .challenge-block p,
   .solution-block p {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     color: #3D3D3D;
-    line-height: 1.7;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .challenge-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1.5rem;
+    color: var(--text-light);
   }
 
   .solution-block {
     background: var(--accent-light);
     border-left: 3px solid var(--accent);
-    padding: 1rem 1.25rem;
+    padding: 1.25rem;
     border-radius: 0 6px 6px 0;
+  }
+
+  @media (max-width: 768px) {
+    .challenge-group {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .challenge-arrow {
+      padding: 0.25rem 0;
+      transform: rotate(90deg);
+    }
   }
 
   /* ==========================================================================
@@ -650,7 +816,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    padding: calc(0.55rem - 1.5px) 1.2rem;
     background: transparent;
     color: var(--text-primary);
     font-family: 'Inter', sans-serif;
@@ -775,7 +941,7 @@
     <div class="hero-meta reveal">
       <div class="hero-meta-item">
         <span class="t-heading-2 hero-meta-label">Timeline</span>
-        <span class="hero-meta-value">Dec 2025 (2-day hackathon)</span>
+        <span class="hero-meta-value">Nov–Dec 2025<br>(preliminary + 2-day finals)</span>
       </div>
       <div class="hero-meta-item">
         <span class="t-heading-2 hero-meta-label">Team</span>
@@ -783,7 +949,7 @@
       </div>
       <div class="hero-meta-item">
         <span class="t-heading-2 hero-meta-label">My Role</span>
-        <span class="hero-meta-value">Project Lead, RAG Pipeline Design & Implementation</span>
+        <span class="hero-meta-value">Project Lead, UX Research & Design<br>RAG Pipeline Design</span>
       </div>
     </div>
 
@@ -807,14 +973,17 @@
       <div class="stat-item">
         <div class="stat-number">86%</div>
         <div class="stat-label">give up thinking "I'm probably not eligible"</div>
+        <div class="stat-source">Seoul Welfare Survey, 2020</div>
       </div>
       <div class="stat-item">
         <div class="stat-number">48%</div>
         <div class="stat-label">of eligible citizens don't receive benefits</div>
+        <div class="stat-source">National Indicators, MOHW 2024</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">30+ min</div>
-        <div class="stat-label">average time to search for relevant policies</div>
+        <div class="stat-number">300+</div>
+        <div class="stat-label">Seoul welfare programs across multiple platforms</div>
+        <div class="stat-source">Seoul Open Data Portal</div>
       </div>
     </div>
 
@@ -829,8 +998,19 @@
       </div>
     </div>
 
+    <div class="comparison-gallery">
+      <div class="comparison-item">
+        <img src="images/seoultalk.png" alt="Seoul Talk chatbot showing category links instead of personalized answers" loading="lazy">
+        <div class="comparison-label">Seoul Talk — KakaoTalk chatbot, category selection → link click, no automatic condition matching</div>
+      </div>
+      <div class="comparison-item">
+        <img src="images/bokjiro.png" alt="Bokjiro website requiring manual checkbox filtering across dozens of criteria" loading="lazy">
+        <div class="comparison-label">Bokjiro — government welfare portal, checkbox filtering, users must judge their own eligibility</div>
+      </div>
+    </div>
+
     <div class="highlight-box">
-      <p>I reframed the problem: "How can we make scattered, complex welfare information easily searchable through natural language conversation?"</p>
+      <p>van Oorschot's welfare non-take-up model identifies the first barrier as <strong>self-censorship</strong> — 86% of Seoul residents didn't apply because they assumed they weren't eligible. Welfare Compass targets this threshold stage.</p>
     </div>
   </section>
 
@@ -845,6 +1025,15 @@
     </div>
 
     <div class="discovery-method">Informal interviews · n ≈ 8 · Bootcamp cohort, late-20s, Seoul residents</div>
+
+    <div class="persona-card">
+      <img class="persona-avatar" src="images/YujinKim.png" alt="Persona: Yujin Kim">
+      <div class="persona-info">
+        <h4>Yujin, 27</h4>
+        <div class="persona-meta">Unemployed · Single · Renting in Seoul · Lives alone</div>
+        <div class="persona-quote">"I figured welfare was for low-income families. I never thought someone like me could qualify for anything."</div>
+      </div>
+    </div>
 
     <div class="insight-grid">
       <!-- Finding 1: Awareness gap -->
@@ -916,21 +1105,23 @@
 
     <div class="screenshot-gallery">
       <div class="screenshot-item">
-        <img src="images/welfare-chat-1.png" alt="Chatbot conversation start: user describes their situation in natural language while their profile is displayed on the left sidebar" loading="lazy">
+        <img src="images/chat1.png" alt="Chatbot conversation start: user describes their situation in natural language while their profile is displayed on the left sidebar" loading="lazy">
         <div class="screenshot-label">01 — Natural language input with auto-extracted user profile</div>
       </div>
       <div class="screenshot-item">
-        <img src="images/welfare-chat-2.png" alt="Chatbot recommends three personalized welfare programs with summary cards" loading="lazy">
+        <img src="images/chat2.png" alt="Chatbot recommends three personalized welfare programs with summary cards" loading="lazy">
         <div class="screenshot-label">02 — Personalized recommendations with welfare program cards</div>
       </div>
       <div class="screenshot-item">
-        <img src="images/welfare-chat-5.png" alt="User asks about eligibility and application steps, chatbot provides detailed guidance" loading="lazy">
+        <img src="images/chat3.png" alt="User asks about eligibility and application steps, chatbot provides detailed guidance" loading="lazy">
         <div class="screenshot-label">03 — Follow-up Q&A: eligibility check & application guide</div>
       </div>
     </div>
 
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/TMOHp0wMUXM" title="Welfare Compass Demo" allowfullscreen loading="lazy"></iframe>
+    <div class="video-container" id="demo-video">
+      <div class="video-poster" style="background-image: url('images/Youtube_thumbnail.png')" onclick="this.parentElement.innerHTML='<iframe src=\'https://www.youtube.com/embed/TMOHp0wMUXM?autoplay=1\' title=\'Welfare Compass Demo\' allowfullscreen style=\'width:100%;height:100%;border:none;display:block\'></iframe>'">
+        <div class="play-btn"></div>
+      </div>
     </div>
   </section>
 
@@ -974,10 +1165,13 @@
 
     <div class="challenge-group">
       <div class="challenge-block">
+        <div class="challenge-label">Challenge</div>
         <h4>Low retrieval accuracy with vector search alone</h4>
         <p>Initial tests showed that semantic search (FAISS) missed relevant policies when user queries used different terminology than the policy documents.</p>
       </div>
+      <div class="challenge-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div>
       <div class="solution-block">
+        <div class="challenge-label">Solution</div>
         <h4>Ensemble retrieval with BM25</h4>
         <p>A teammate contributed a BM25 keyword matching module to complement the FAISS vector search. This hybrid ensemble approach captured both semantic meaning and exact keyword matches, significantly improving retrieval accuracy.</p>
       </div>
@@ -985,10 +1179,13 @@
 
     <div class="challenge-group">
       <div class="challenge-block">
+        <div class="challenge-label">Challenge</div>
         <h4>Inconsistent and hard-to-understand responses</h4>
         <p>Early feedback indicated that responses lacked consistency and used technical welfare terminology that users couldn't understand.</p>
       </div>
+      <div class="challenge-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div>
       <div class="solution-block">
+        <div class="challenge-label">Solution</div>
         <h4>Iterative prompt engineering</h4>
         <p>Redesigned prompts to ensure responses were grounded only in retrieved documents. Experimented extensively with converting bureaucratic language to everyday expressions. Tested against real user question patterns to refine response quality.</p>
       </div>
@@ -996,10 +1193,13 @@
 
     <div class="challenge-group">
       <div class="challenge-block">
+        <div class="challenge-label">Challenge</div>
         <h4>Team alignment under time pressure</h4>
         <p>After advancing to finals, team members wanted to build out backend/frontend infrastructure. With limited time remaining, this risked delivering an incomplete product.</p>
       </div>
+      <div class="challenge-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div>
       <div class="solution-block">
+        <div class="challenge-label">Solution</div>
         <h4>MVP-first approach with clear prioritization</h4>
         <p>Advocated for "working MVP over perfect architecture." Built Streamlit-based prototype overnight, demonstrated its viability to the team, and aligned everyone around completing a functional product rather than an ambitious but incomplete system.</p>
       </div>
@@ -1037,26 +1237,24 @@
       <li><strong>Constraints force clarity.</strong> The tight hackathon timeline forced us to identify what truly mattered: a working system that could demonstrate the core value proposition.</li>
       <li><strong>RAG is powerful for frequently-updated domains.</strong> Welfare policies change constantly. Choosing RAG over fine-tuning meant we could incorporate policy updates through simple document refresh.</li>
       <li><strong>Hybrid retrieval outperforms single approaches.</strong> Combining semantic search with keyword matching addressed the vocabulary mismatch between user queries and policy documents.</li>
+      <li><strong>Testing with proxy users has limits.</strong> Our interviewees were digitally fluent bootcamp peers — real welfare applicants likely face different barriers around language complexity, trust, and digital literacy.</li>
     </ul>
 
-    <div style="margin-top: 2.5rem;">
-      <h3 class="t-heading-1" style="margin-bottom: 1rem;">What I'd Do Differently</h3>
-      <div class="content">
-        <p>Our interview participants were bootcamp peers — digitally fluent young adults who could articulate their frustrations clearly. The actual target users include citizens with low digital literacy, older adults, and people in urgent financial situations whose needs and behaviors likely differ significantly. Testing with real welfare applicants, not proxies, would have surfaced different pain points and probably led to different design decisions around language complexity, trust signals, and onboarding flow.</p>
-      </div>
-    </div>
+  </section>
 
-    <div style="margin-top: 2.5rem;">
-      <h3 class="t-heading-1" style="margin-bottom: 1rem;">Future Directions</h3>
-      <div class="content">
-        <p>The hackathon MVP validated the core concept, but there's significant room for improvement in both the technical system and the research approach:</p>
-      </div>
-      <ul class="takeaway-list">
+  <!-- WHAT'S NEXT -->
+  <section class="reveal">
+    <div class="section-label">
+      <span>What's Next</span>
+    </div>
+    <div class="content">
+      <p>The hackathon MVP validated the core concept, but there's significant room for improvement in both the technical system and the research approach:</p>
+    </div>
+    <ul class="takeaway-list">
         <li><strong>Usability testing with real welfare applicants</strong> — partnering with community centers or welfare offices to observe how actual target users interact with the system, especially those with lower digital literacy.</li>
         <li><strong>Accessibility evaluation</strong> — assessing whether the conversational interface genuinely lowers barriers or introduces new ones (e.g., for users uncomfortable with open-ended text input).</li>
         <li><strong>Production-ready architecture</strong> — migrating from Streamlit to a React frontend, expanding coverage from Seoul youth to all citizens, and integrating real-time eligibility verification with welfare service providers.</li>
       </ul>
-    </div>
   </section>
 
   <!-- BACK -->
