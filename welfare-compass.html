@@ -34,7 +34,7 @@
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
 
     --max-width: 1080px;
-    --content-width: 720px;
+    --content-width: 840px;
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -459,6 +459,46 @@
   }
 
   /* ==========================================================================
+     SCREENSHOT GALLERY
+     ========================================================================== */
+  .screenshot-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .screenshot-gallery .screenshot-item {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .screenshot-gallery .screenshot-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+  .screenshot-gallery img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+  .screenshot-gallery .screenshot-label {
+    padding: 0.6rem 0.75rem;
+    border-top: 1px solid var(--border-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-light);
+    line-height: 1.4;
+  }
+  @media (max-width: 768px) {
+    .screenshot-gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ==========================================================================
      PROCESS STEPS
      ========================================================================== */
   .process-steps {
@@ -872,6 +912,21 @@
     <div class="content">
       <p>Welfare Compass is a conversational AI agent that extracts user profile information through natural dialogue and matches it against a manually curated welfare policy database using RAG (Retrieval-Augmented Generation). For the hackathon, we curated ~100 Seoul welfare programs covering housing, employment, living expenses, and education.</p>
       <p>Instead of requiring users to fill out forms or navigate complex menus, they simply describe their situation: "I'm a 28-year-old freelancer living in Gangnam, looking for housing support." The system automatically extracts relevant attributes and finds matching welfare programs.</p>
+    </div>
+
+    <div class="screenshot-gallery">
+      <div class="screenshot-item">
+        <img src="images/welfare-chat-1.png" alt="Chatbot conversation start: user describes their situation in natural language while their profile is displayed on the left sidebar" loading="lazy">
+        <div class="screenshot-label">01 — Natural language input with auto-extracted user profile</div>
+      </div>
+      <div class="screenshot-item">
+        <img src="images/welfare-chat-2.png" alt="Chatbot recommends three personalized welfare programs with summary cards" loading="lazy">
+        <div class="screenshot-label">02 — Personalized recommendations with welfare program cards</div>
+      </div>
+      <div class="screenshot-item">
+        <img src="images/welfare-chat-5.png" alt="User asks about eligibility and application steps, chatbot provides detailed guidance" loading="lazy">
+        <div class="screenshot-label">03 — Follow-up Q&A: eligibility check & application guide</div>
+      </div>
     </div>
 
     <div class="video-container">
