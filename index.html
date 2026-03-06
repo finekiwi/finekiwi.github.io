@@ -483,6 +483,46 @@
     border-bottom: 1px solid var(--border);
   }
 
+  .project-video-poster {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-video-poster .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    background: rgba(0,0,0,0.65);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .project-video-poster:hover .play-btn {
+    background: rgba(0,0,0,0.8);
+  }
+
+  .project-video-poster .play-btn::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 3px;
+  }
+
   .project-body {
     padding: 2rem;
   }
@@ -948,7 +988,9 @@
 
   <!-- Welfare Compass -->
   <div class="project-card reveal">
-    <iframe class="project-thumbnail-video" src="https://www.youtube.com/embed/TMOHp0wMUXM" title="Welfare Compass Demo" allowfullscreen loading="lazy"></iframe>
+    <div class="project-video-poster" style="background-image: url('images/Youtube_thumbnail.png')" onclick="this.outerHTML='<iframe class=\'project-thumbnail-video\' src=\'https://www.youtube.com/embed/TMOHp0wMUXM?autoplay=1\' title=\'Welfare Compass Demo\' allowfullscreen></iframe>'">
+      <div class="play-btn"></div>
+    </div>
     <div class="project-body">
       <div class="project-header">
         <div>
