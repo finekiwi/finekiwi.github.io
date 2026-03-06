@@ -33,7 +33,7 @@
 
     /* Neutrals */
     --bg-primary: #FDFAF5;
-    --bg-secondary: #F0F0ED;
+    --bg-secondary: #F7F2EA;
     --bg-white: #FFFFFF;
     --text-primary: #1A1A1A;
     --text-secondary: #6B6B6B;
@@ -125,7 +125,7 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(248, 248, 246, 0.88);
+    background: rgba(253, 250, 245, 0.97);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(0,0,0,0.06);
@@ -165,10 +165,10 @@
     position: absolute;
     bottom: -4px; left: 0;
     width: 0; height: 1.5px;
-    background: var(--text-primary);
+    background: var(--accent-secondary);
     transition: width 0.3s ease;
   }
-  .nav-links a:hover { color: var(--text-primary); }
+  .nav-links a:hover { color: var(--accent); }
   .nav-links a:hover::after { width: 100%; }
 
   /* Mobile hamburger */
@@ -296,7 +296,6 @@
     background: var(--accent-hover);
     color: #fff;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(45, 106, 106, 0.3);
   }
 
   .btn-secondary {
@@ -315,8 +314,7 @@
     transition: all 0.25s ease;
   }
   .btn-secondary:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--text-primary);
     transform: translateY(-1px);
   }
 
@@ -465,7 +463,6 @@
   }
 
   .project-card:hover {
-    box-shadow: var(--shadow-md);
     background: var(--bg-secondary);
   }
 
@@ -878,7 +875,7 @@
   <div class="hero-grid">
     <div>
       <h1 class="t-display hero-name">Yuna Sim</h1>
-      <p class="hero-role">AI Researcher · M.S. in AI Convergence, Ewha Womans University</p>
+      <p class="hero-role">AI Researcher · HCI · Accessible AI</p>
       <p class="hero-tagline">Building intelligent systems that make complex information accessible to non-expert users</p>
       <div class="hero-cta">
         <a href="#projects" class="btn-primary">View Projects</a>
@@ -888,13 +885,13 @@
     </div>
     <div class="hero-visual">
       <div class="color-study">
-        <div class="swatch swatch-1"><span class="swatch-label">#C7956D</span></div>
-        <div class="swatch swatch-2"><span class="swatch-label">#8B7355</span></div>
-        <div class="swatch swatch-3"><span class="swatch-label">#2C2C2C</span></div>
-        <div class="swatch swatch-4"><span class="swatch-label">#C4A265</span></div>
-        <div class="swatch swatch-5"><span class="swatch-label">#F3EBD8</span></div>
+        <div class="swatch swatch-1"><span class="swatch-label">L*66 a*14 b*28</span></div>
+        <div class="swatch swatch-2"><span class="swatch-label">L*50 a*5 b*20</span></div>
+        <div class="swatch swatch-3"><span class="swatch-label">L*18 a*0 b*0</span></div>
+        <div class="swatch swatch-4"><span class="swatch-label">L*68 a*5 b*36</span></div>
+        <div class="swatch swatch-5"><span class="swatch-label">L*93 a*0 b*10</span></div>
       </div>
-      <p class="color-study-caption">Warm palette from K-drama color grading study<br>Site accent: dominant hue (teal) as counterpoint</p>
+      <p class="color-study-caption">Color palette inspired by Korean drama color grading preference study (n=86, p&lt;.05)</p>
     </div>
   </div>
 </section>
@@ -907,16 +904,15 @@
   <div class="about-content reveal">
     <div class="about-text">
       <p>I'm an AI researcher focused on making complex information accessible through intelligent systems. My work spans RAG-based chatbots for welfare policy navigation, computational analysis of how visual features affect user perception, and computer vision systems for industrial applications.</p>
-      <p>I hold an M.S. in AI Convergence from Ewha Womans University. My research explores how to bridge the gap between technical capabilities and real user needs — whether that's a citizen searching for welfare benefits or an inspector reviewing manufacturing defects.</p>
+      <p>I hold an M.S. in AI Convergence and a dual B.S./B.A. in Electronics Engineering and Multimedia from Ewha Womans University. My research explores how to bridge the gap between technical capabilities and real user needs — whether that's a citizen searching for welfare benefits or an inspector reviewing manufacturing defects.</p>
     </div>
     <div>
       <div class="research-interests">
         <p class="t-heading-2 interest-label">Research Interests</p>
         <div class="interest-tags">
           <span class="interest-tag">Human-Computer Interaction</span>
-          <span class="interest-tag">Accessible AI Systems</span>
-          <span class="interest-tag">Multimodal Learning</span>
-          <span class="interest-tag">Vision-Language Models</span>
+          <span class="interest-tag">Human-AI Interaction</span>
+          <span class="interest-tag">Accessible Technology</span>
           <span class="interest-tag">Computer Vision</span>
         </div>
       </div>
@@ -1025,7 +1021,7 @@
         </ul>
 
         <h4>Outcome</h4>
-        <p>Korean color grading preferred 1.5× regardless of viewer nationality (p&lt;.05). First author publication.</p>
+        <p>Korean color grading preferred 1.5× overall across the full sample (p&lt;.05). First author publication.</p>
 
         <h4>Tech Stack</h4>
         <div class="tech-stack">
@@ -1158,7 +1154,7 @@
       <div>
         <div class="pub-title">"Auto White Balancing Method for Multi-View Video and Image Processing Apparatus"</div>
         <div class="pub-authors"><span class="first-author">Yuna Sim</span>, Hyejin Oh, Jewon Kang</div>
-        <div class="pub-venue">Korean Patent Application Pending, Filed 2024</div>
+        <div class="pub-venue">Korean Patent No. 10-2024-0162001, Filed 2024</div>
       </div>
     </div>
   </div>
@@ -1204,7 +1200,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <span class="footer-note">Accent derived from K-drama dominant hue · Warm palette as research artifact</span>
+  <span class="footer-note">Color system inspired by K-drama color grading preference study</span>
   <span class="footer-credit">© 2026 Yuna Sim</span>
 </footer>
 
