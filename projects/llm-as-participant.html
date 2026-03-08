@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM-as-Participant | Yuna Sim</title>
+<meta name="description" content="LLM-as-Participant: Systematic comparison of LLM synthetic personas vs. real users for UX research on a Korean welfare service. Independent research, pilot phase.">
+<meta property="og:title" content="LLM-as-Participant — Can Synthetic Personas Replace Real Users? | Yuna Sim">
+<meta property="og:description" content="Three-way comparison of developer, non-developer, and LLM persona feedback on a Korean welfare chatbot. HCI research in progress.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --accent: #2D6A6A;
+    --accent-hover: #1F5252;
+    --accent-light: #F0F7F7;
+    --accent-secondary: #4A8E8E;
+
+    --bg-primary: #FDFAF5;
+    --bg-secondary: #F0F0ED;
+    --bg-white: #FFFFFF;
+    --text-primary: #1A1A1A;
+    --text-secondary: #6B6B6B;
+    --text-light: #A3A3A3;
+    --border: #E8E5E1;
+    --border-light: #EFEFEF;
+
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+    --max-width: 1080px;
+    --content-width: 840px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent-light);
+    color: var(--accent-hover);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  a:hover { color: var(--accent-hover); }
+  img { max-width: 100%; display: block; }
+
+  .t-display {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .t-heading-1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .t-heading-2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-secondary);
+  }
+
+  .t-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(253, 250, 245, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .nav-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .nav-back:hover { color: var(--text-primary); }
+  .nav-back svg { width: 16px; height: 16px; }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--text-primary);
+  }
+
+  /* LAYOUT */
+  main {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-label span {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  section {
+    padding: 3.5rem 0;
+  }
+
+  section + section {
+    border-top: 1px solid var(--border-light);
+  }
+
+  /* HERO */
+  .hero {
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+    border-top: none;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-top: 0.75rem;
+    margin-bottom: 2.5rem;
+    max-width: 620px;
+    line-height: 1.7;
+  }
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-meta-item {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .hero-meta-label {
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .hero-meta-value {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .hero-result {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.2rem;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+
+  .hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    background: #FDF5E4;
+    color: #8B6914;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid #E8D5A0;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+  }
+
+  /* CONTENT */
+  .content p {
+    font-size: 1rem;
+    color: #3D3D3D;
+    margin-bottom: 1.25rem;
+    line-height: 1.75;
+  }
+  .content p:last-child { margin-bottom: 0; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+    margin: 2rem 0;
+  }
+
+  .highlight-box p {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  /* TECH TAGS */
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0;
+  }
+
+  .tech-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-light);
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+  }
+
+  /* RESEARCH GAP CARDS */
+  .gap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .gap-card {
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-white);
+  }
+
+  .gap-card .gap-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+
+  .gap-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+    line-height: 1.35;
+  }
+
+  .gap-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* DIAGRAM CONTAINER */
+  .diagram-container {
+    margin: 2rem 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--bg-white);
+    padding: 2rem 1.5rem;
+  }
+
+  .diagram-container svg {
+    width: 100%;
+    display: block;
+  }
+
+  .diagram-caption {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin: 0 -1.5rem -2rem;
+  }
+
+  /* HYPOTHESIS CARDS */
+  .hyp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .hyp-card {
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-white);
+  }
+
+  .hyp-card .hyp-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .hyp-card h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.35;
+    margin-bottom: 0.4rem;
+  }
+
+  .hyp-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ANALYSIS FRAME */
+  .frame-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .frame-item {
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .frame-item .frame-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .frame-item h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .frame-item p {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .frame-match {
+    background: var(--accent-light);
+    border: 1px solid var(--accent);
+  }
+  .frame-match h4 { color: var(--accent); }
+  .frame-match p { color: #3D3D3D; }
+
+  .frame-blind {
+    background: #FFF5F5;
+    border: 1px solid #E8A0A0;
+  }
+  .frame-blind h4 { color: #8B1414; }
+  .frame-blind p { color: #3D3D3D; }
+
+  .frame-hall {
+    background: #FDF5E4;
+    border: 1px solid #E8D5A0;
+  }
+  .frame-hall h4 { color: #8B6914; }
+  .frame-hall p { color: #3D3D3D; }
+
+  /* PERSONA COMPARISON */
+  .persona-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin: 2rem 0;
+  }
+
+  .persona-card {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-white);
+  }
+
+  .persona-card .persona-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+
+  .persona-card h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .persona-attrs {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25rem 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  .persona-attrs dt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-light);
+    padding-top: 0.15rem;
+  }
+
+  .persona-attrs dd {
+    color: #3D3D3D;
+    font-weight: 400;
+  }
+
+  /* PROCESS STEPS */
+  .process-steps {
+    margin: 2rem 0;
+  }
+
+  .process-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .process-step:last-child { margin-bottom: 0; }
+
+  .step-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    line-height: 1;
+    padding-top: 0.15rem;
+  }
+
+  .step-content h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+  }
+
+  .step-content p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* PLACEHOLDER / COMING SOON */
+  .placeholder-section {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    background: var(--bg-secondary);
+    margin: 1.5rem 0;
+  }
+
+  .placeholder-section .placeholder-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.8rem;
+    background: #FDF5E4;
+    color: #8B6914;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 3px;
+    border: 1px solid #E8D5A0;
+    margin-bottom: 1rem;
+  }
+
+  .placeholder-section h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .placeholder-section p {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .placeholder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .placeholder-card {
+    border: 2px dashed var(--border);
+    border-radius: 6px;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    background: var(--bg-secondary);
+  }
+
+  .placeholder-card .placeholder-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.4;
+  }
+
+  .placeholder-card h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+
+  .placeholder-card p {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+
+  /* LITERATURE CARDS */
+  .lit-list {
+    margin: 2rem 0;
+  }
+
+  .lit-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--border-light);
+  }
+  .lit-item:last-child { border-bottom: 1px solid var(--border-light); }
+
+  .lit-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-light);
+    font-weight: 500;
+    padding-top: 0.2rem;
+  }
+
+  .lit-content h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.35;
+    margin-bottom: 0.3rem;
+  }
+
+  .lit-content .lit-venue {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 0.3rem;
+  }
+
+  .lit-content p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .lit-content .lit-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.12rem 0.5rem;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+  }
+
+  .lit-tag.critique { background: #FFF5F5; color: #8B1414; border: 1px solid #E8A0A0; }
+  .lit-tag.method { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
+  .lit-tag.framework { background: #FDF5E4; color: #8B6914; border: 1px solid #E8D5A0; }
+
+  /* PROGRESS */
+  .progress-group {
+    margin-bottom: 1.75rem;
+  }
+  .progress-group:last-child { margin-bottom: 0; }
+
+  .progress-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+  }
+
+  .progress-badge.done { background: var(--accent-light); color: var(--accent); }
+  .progress-badge.wip  { background: #FDF5E4; color: #8B6914; }
+  .progress-badge.planned { background: var(--bg-secondary); color: var(--text-secondary); }
+
+  .progress-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .progress-list li {
+    position: relative;
+    padding-left: 1.4rem;
+    margin-bottom: 0.55rem;
+    font-size: 0.9rem;
+    color: #3D3D3D;
+    line-height: 1.65;
+  }
+  .progress-list li:last-child { margin-bottom: 0; }
+
+  .progress-group.is-done .progress-list li::before {
+    content: "\2713";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+  .progress-group.is-wip .progress-list li::before {
+    content: "\2192";
+    position: absolute;
+    left: 0;
+    color: #8B6914;
+    font-weight: 500;
+  }
+  .progress-group.is-planned .progress-list li::before {
+    content: "\25CB";
+    position: absolute;
+    left: 0;
+    color: var(--text-light);
+    font-size: 0.8rem;
+    top: 0.1rem;
+  }
+
+  /* TAKEAWAY LIST */
+  .takeaway-list {
+    list-style: none;
+    margin: 1.5rem 0;
+  }
+
+  .takeaway-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #3D3D3D;
+    line-height: 1.7;
+  }
+  .takeaway-list li:last-child { margin-bottom: 0; }
+
+  .takeaway-list li::before {
+    content: "\2192";
+    position: absolute;
+    left: 0;
+    color: var(--text-light);
+    font-weight: 500;
+  }
+
+  /* BLOCKQUOTE */
+  .blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .blockquote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.2rem;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45, 106, 106, 0.3);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: calc(0.55rem - 1.5px) 1.2rem;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  /* BACK SECTION */
+  .back-section {
+    padding: 3rem 0 5rem;
+    text-align: center;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 2rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .footer-credit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-light);
+    display: block;
+  }
+
+  /* ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-meta {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    section { padding: 2.5rem 0; }
+    .gap-grid {
+      grid-template-columns: 1fr;
+    }
+    .hyp-grid {
+      grid-template-columns: 1fr;
+    }
+    .persona-grid {
+      grid-template-columns: 1fr;
+    }
+    .frame-grid {
+      grid-template-columns: 1fr;
+    }
+    .placeholder-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    main { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .nav-inner { padding: 0.8rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back to Portfolio
+    </a>
+    <a href="../index.html" class="nav-logo">Yuna Sim</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ================================================================
+       1. HERO / OVERVIEW
+       ================================================================ -->
+  <section class="hero">
+    <h1 class="t-display reveal">LLM-as-Participant</h1>
+    <p class="hero-subtitle reveal">Can synthetic personas replace real users in UX research? A systematic three-way comparison of LLM-generated feedback against developer and non-developer evaluations on a Korean welfare chatbot.</p>
+
+    <div class="hero-meta reveal">
+      <div class="hero-meta-item">
+        <span class="t-heading-2 hero-meta-label">Timeline</span>
+        <span class="hero-meta-value">Feb 2026 &ndash; Present<br>(Pilot phase)</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="t-heading-2 hero-meta-label">Role</span>
+        <span class="hero-meta-value">Independent Researcher<br>Study Design &middot; Prompt Engineering &middot; Analysis</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="t-heading-2 hero-meta-label">Target Service</span>
+        <span class="hero-meta-value"><a href="welfare-compass-v2.html">Welfare Compass v2</a><br>Korean welfare policy chatbot</span>
+      </div>
+    </div>
+
+    <div class="hero-actions reveal">
+      <span class="hero-status">In Progress &mdash; Pilot</span>
+      <a href="https://github.com/finekiwi/llm-as-participant" target="_blank" rel="noopener" class="btn-secondary">GitHub Repo &rarr;</a>
+    </div>
+
+    <div class="hero-tags reveal">
+      <span class="tech-tag">HCI</span>
+      <span class="tech-tag">LLM</span>
+      <span class="tech-tag">Synthetic Personas</span>
+      <span class="tech-tag">UX Research</span>
+      <span class="tech-tag">Korean Welfare Service</span>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       2. PROBLEM & MOTIVATION
+       ================================================================ -->
+  <section class="reveal">
+    <div class="section-label">
+      <span>Problem &amp; Motivation</span>
+    </div>
+    <div class="content">
+      <p>User research is the backbone of human-centered design, but it remains one of the most resource-intensive stages. Recruiting participants, scheduling interviews, and analyzing transcripts can take weeks &mdash; creating a bottleneck that forces many teams to skip formative evaluation entirely or rely on developer intuition.</p>
+      <p>The emergence of LLM-based synthetic user research promises a faster alternative: generate synthetic personas, conduct simulated interviews, and extract usability insights in hours instead of weeks. Several recent papers have demonstrated promising results. But a critical question remains largely unexamined: <em>how reliable are these synthetic insights, and under what conditions do they break down?</em></p>
+    </div>
+
+    <div class="highlight-box">
+      <p><strong>The research question:</strong> Rather than asking "Can LLMs replace real users?" &mdash; a binary that oversimplifies the problem &mdash; this study asks: <em>"Where do LLM personas match real user feedback, where do they fail, and what systematic patterns characterize those failures?"</em></p>
+    </div>
+
+    <div class="gap-grid">
+      <div class="gap-card">
+        <div class="gap-num">1</div>
+        <h4>No Korean-language validation</h4>
+        <p>Existing studies are overwhelmingly English-only. Korean has different politeness registers, indirection patterns, and welfare terminology that may affect persona fidelity.</p>
+      </div>
+      <div class="gap-card">
+        <div class="gap-num">2</div>
+        <h4>Public welfare domain untested</h4>
+        <p>Prior work focuses on consumer products and websites. Public welfare services involve complex eligibility rules, emotional stakes, and low digital literacy &mdash; a fundamentally different UX context.</p>
+      </div>
+      <div class="gap-card">
+        <div class="gap-num">3</div>
+        <h4>No three-way comparison</h4>
+        <p>Studies compare LLM vs. real users, but never distinguish developer users from non-developer users. Developer bias is a known confound in UX evaluation &mdash; ignoring it conflates technical literacy with real user behavior.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       3. STUDY DESIGN
+       ================================================================ -->
+  <section class="reveal">
+    <div class="section-label">
+      <span>Study Design</span>
+    </div>
+    <div class="content">
+      <p>The study compares UX feedback from three distinct groups on the same service using the same structured interview protocol. This three-way design isolates the effect of technical literacy (developer vs. non-developer) from the effect of synthetic generation (human vs. LLM).</p>
+    </div>
+
+    <!-- Three-way comparison diagram -->
+    <div class="diagram-container">
+      <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="font-family:'Inter',sans-serif;">
+        <!-- Developer group -->
+        <rect x="20" y="30" width="180" height="90" rx="6" fill="white" stroke="#E8E5E1" stroke-width="1.5"/>
+        <text x="110" y="58" text-anchor="middle" font-size="12" font-weight="600" fill="#1A1A1A">Developers</text>
+        <text x="110" y="78" text-anchor="middle" font-size="10" fill="#6B6B6B">5&ndash;8 participants</text>
+        <text x="110" y="96" text-anchor="middle" font-size="9" fill="#A3A3A3">Built or maintained</text>
+        <text x="110" y="109" text-anchor="middle" font-size="9" fill="#A3A3A3">Welfare Compass v2</text>
+
+        <!-- LLM Persona group (center, highlighted) -->
+        <rect x="260" y="30" width="180" height="90" rx="6" fill="#F0F7F7" stroke="#2D6A6A" stroke-width="1.5"/>
+        <text x="350" y="58" text-anchor="middle" font-size="12" font-weight="600" fill="#2D6A6A">LLM Personas</text>
+        <text x="350" y="78" text-anchor="middle" font-size="10" fill="#2D6A6A">8 synthetic profiles</text>
+        <text x="350" y="96" text-anchor="middle" font-size="9" fill="#4A8E8E">Backstory-driven prompts</text>
+        <text x="350" y="109" text-anchor="middle" font-size="9" fill="#4A8E8E">Multi-model cross-validation</text>
+
+        <!-- Non-developer group -->
+        <rect x="500" y="30" width="180" height="90" rx="6" fill="white" stroke="#E8E5E1" stroke-width="1.5"/>
+        <text x="590" y="58" text-anchor="middle" font-size="12" font-weight="600" fill="#1A1A1A">Non-developers</text>
+        <text x="590" y="78" text-anchor="middle" font-size="10" fill="#6B6B6B">5&ndash;8 participants</text>
+        <text x="590" y="96" text-anchor="middle" font-size="9" fill="#A3A3A3">No technical background</text>
+        <text x="590" y="109" text-anchor="middle" font-size="9" fill="#A3A3A3">Target user demographic</text>
+
+        <!-- Connecting lines -->
+        <line x1="200" y1="75" x2="260" y2="75" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="440" y1="75" x2="500" y2="75" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+        <!-- Bottom: shared protocol -->
+        <rect x="130" y="165" width="440" height="65" rx="6" fill="white" stroke="#E8E5E1" stroke-width="1.5"/>
+        <text x="350" y="190" text-anchor="middle" font-size="11" font-weight="600" fill="#1A1A1A">Same Service &middot; Same Protocol &middot; Same Questions</text>
+        <text x="350" y="210" text-anchor="middle" font-size="9.5" fill="#6B6B6B">14-turn structured interview on Welfare Compass v2</text>
+
+        <!-- Arrows down to shared protocol -->
+        <line x1="110" y1="120" x2="110" y2="145" stroke="#C0BAB2" stroke-width="1"/>
+        <line x1="110" y1="145" x2="240" y2="165" stroke="#C0BAB2" stroke-width="1"/>
+        <line x1="350" y1="120" x2="350" y2="165" stroke="#C0BAB2" stroke-width="1"/>
+        <line x1="590" y1="120" x2="590" y2="145" stroke="#C0BAB2" stroke-width="1"/>
+        <line x1="590" y1="145" x2="460" y2="165" stroke="#C0BAB2" stroke-width="1"/>
+      </svg>
+      <div class="diagram-caption">Three-way comparison design. All groups evaluate the same welfare chatbot service using identical interview protocols, enabling direct comparison of feedback quality and coverage.</div>
+    </div>
+
+    <!-- Analysis Framework -->
+    <div style="margin-top: 2.5rem;">
+      <span class="t-heading-2">Analysis Framework</span>
+    </div>
+
+    <div class="frame-grid">
+      <div class="frame-item frame-match">
+        <div class="frame-icon">&check;</div>
+        <h4>Match</h4>
+        <p>LLM persona identifies a pain point also found by real users</p>
+      </div>
+      <div class="frame-item frame-blind">
+        <div class="frame-icon">&times;</div>
+        <h4>LLM Blind Spot</h4>
+        <p>Real users identify an issue the LLM completely misses</p>
+      </div>
+      <div class="frame-item frame-hall">
+        <div class="frame-icon">!</div>
+        <h4>LLM Hallucination</h4>
+        <p>LLM fabricates a pain point no real user experiences</p>
+      </div>
+    </div>
+
+    <!-- Hypotheses -->
+    <div style="margin-top: 2.5rem;">
+      <span class="t-heading-2">Hypotheses</span>
+    </div>
+
+    <div class="hyp-grid">
+      <div class="hyp-card">
+        <div class="hyp-id">H1</div>
+        <h4>Surface-level match, depth mismatch</h4>
+        <p>LLM personas will identify similar <em>categories</em> of pain points as real users, but underestimate severity for emotionally charged or context-dependent issues.</p>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-id">H2</div>
+        <h4>Developer bias detection</h4>
+        <p>Developers will over-report technical issues (latency, architecture) while under-reporting UX friction that non-developers experience (confusing language, trust concerns).</p>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-id">H3</div>
+        <h4>Welfare-domain blind spots</h4>
+        <p>LLMs will struggle with domain-specific patterns: welfare stigma, digital literacy barriers, and the emotional weight of eligibility rejection &mdash; experiences absent from training data.</p>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-id">H4</div>
+        <h4>Systematic hallucination patterns</h4>
+        <p>LLM-fabricated pain points will cluster around "generic UX best practices" rather than service-specific issues, revealing a tendency to default to conventional wisdom.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       4. METHODOLOGY
+       ================================================================ -->
+  <section class="reveal">
+    <div class="section-label">
+      <span>Methodology</span>
+    </div>
+    <div class="content">
+      <p>The persona design follows the backstory-driven prompting approach established by Kapania et al. (CHI 2025), which demonstrated that rich narrative context produces more coherent and consistent LLM responses than attribute-list prompts. Each synthetic persona is defined across six demographic and behavioral variables, with two contrasting profiles designed to maximize coverage.</p>
+    </div>
+
+    <!-- Persona variable axes -->
+    <div style="margin-top: 2rem;">
+      <span class="t-heading-2">Persona Design &mdash; 6 Variable Axes</span>
+    </div>
+
+    <div class="tech-stack" style="margin-top: 0.75rem; gap: 0.5rem;">
+      <span class="tech-tag" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Age &amp; Life Stage</span>
+      <span class="tech-tag" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Digital Literacy</span>
+      <span class="tech-tag" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Welfare Experience</span>
+      <span class="tech-tag" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Employment Status</span>
+      <span class="tech-tag" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Household Type</span>
+      <span class="tech-tag" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Information Access Pattern</span>
+    </div>
+
+    <!-- Persona comparison cards -->
+    <div class="persona-grid">
+      <div class="persona-card">
+        <div class="persona-id">P1 &mdash; Contrasting Profile A</div>
+        <h4>Dohyun Kim</h4>
+        <dl class="persona-attrs">
+          <dt>Age</dt>
+          <dd>27, single, recently unemployed</dd>
+          <dt>Digital</dt>
+          <dd>High &mdash; uses apps daily</dd>
+          <dt>Welfare</dt>
+          <dd>First-time applicant, overwhelmed</dd>
+          <dt>Access</dt>
+          <dd>Mobile-first, searches independently</dd>
+        </dl>
+      </div>
+      <div class="persona-card">
+        <div class="persona-id">P2 &mdash; Contrasting Profile B</div>
+        <h4>Sujin Lee</h4>
+        <dl class="persona-attrs">
+          <dt>Age</dt>
+          <dd>34, single parent with child</dd>
+          <dt>Digital</dt>
+          <dd>Low &mdash; basic smartphone use</dd>
+          <dt>Welfare</dt>
+          <dd>Has received benefits before</dd>
+          <dt>Access</dt>
+          <dd>Relies on community center staff</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-light);margin-top:-0.5rem;margin-bottom:2rem;">
+      Two of eight personas shown. Full set spans the variable space to maximize demographic and behavioral coverage.
+    </div>
+
+    <!-- Interview protocol -->
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Backstory-driven system prompt</h4>
+          <p>Each persona receives a structured system prompt containing a narrative backstory, specific life circumstances, and behavioral tendencies. This follows Kapania et al.'s finding that narrative framing produces more consistent persona behavior than attribute lists.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>14-turn structured interview</h4>
+          <p>The interview follows a fixed protocol: onboarding context (2 turns), task-based walkthrough of Welfare Compass v2 (6 turns), open-ended pain point elicitation (4 turns), and severity rating with rationale (2 turns). The same protocol is used for all three groups.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Data collection: pilot manual, production API</h4>
+          <p>Pilot phase uses manual UI-based interviews to calibrate prompts and protocol. The main experiment will use API-based automated collection across 4 models for cross-validation &mdash; a decision driven by the need for systematic model comparison (see decision log).</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4>Multi-model cross-validation</h4>
+          <p>Each persona is interviewed across Claude 3.5 Sonnet, GPT-4o, and Gemini 1.5 Pro. Consensus across models strengthens confidence in a finding; divergence reveals model-specific artifacts. Pilot comparison determined the final model set.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem;">
+      <span class="t-heading-2">Methods &amp; Tools</span>
+      <div class="tech-stack" style="margin-top: 0.75rem;">
+        <span class="tech-tag">LLM Prompt Engineering</span>
+        <span class="tech-tag">Structured Interviews</span>
+        <span class="tech-tag">Thematic Analysis</span>
+        <span class="tech-tag">Claude 3.5 Sonnet</span>
+        <span class="tech-tag">GPT-4o</span>
+        <span class="tech-tag">Gemini 1.5 Pro</span>
+        <span class="tech-tag">Python</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       5. KEY FINDINGS (placeholder)
+       ================================================================ -->
+  <section class="reveal">
+    <div class="section-label">
+      <span>Key Findings</span>
+    </div>
+
+    <div class="placeholder-section">
+      <div class="placeholder-badge">Data Collection In Progress</div>
+      <h4>Results will be populated after pilot completion</h4>
+      <p>The analysis framework and output structure are defined. Pilot interviews are underway; findings will be updated as data becomes available.</p>
+    </div>
+
+    <div class="placeholder-grid">
+      <div class="placeholder-card">
+        <div class="placeholder-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="24" r="14" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <circle cx="30" cy="24" r="14" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+          </svg>
+        </div>
+        <h4>Pain Point Overlap</h4>
+        <p>Venn diagram comparing issues identified by each group</p>
+      </div>
+      <div class="placeholder-card">
+        <div class="placeholder-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="10" height="32" rx="2" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <rect x="22" y="16" width="10" height="24" rx="2" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <rect x="36" y="12" width="10" height="28" rx="2" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+          </svg>
+        </div>
+        <h4>Severity Comparison</h4>
+        <p>Heatmap of severity ratings across three groups</p>
+      </div>
+      <div class="placeholder-card">
+        <div class="placeholder-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="8" width="36" height="6" rx="1" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <rect x="6" y="18" width="36" height="6" rx="1" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <rect x="6" y="28" width="36" height="6" rx="1" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <rect x="6" y="38" width="36" height="6" rx="1" stroke="#C0BAB2" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+          </svg>
+        </div>
+        <h4>Match / Blind Spot / Hallucination</h4>
+        <p>Categorized comparison table with model breakdown</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       6. LITERATURE & POSITIONING
+       ================================================================ -->
+  <section class="reveal">
+    <div class="section-label">
+      <span>Literature &amp; Positioning</span>
+    </div>
+    <div class="content">
+      <p>This study is positioned at the intersection of two active debates in the HCI community: the promise of LLM-augmented research methods and the growing critique of their uncritical adoption. Rather than advocating for or against synthetic personas, this work provides empirical evidence to ground the discussion.</p>
+    </div>
+
+    <div class="lit-list">
+      <div class="lit-item">
+        <div class="lit-year">2025</div>
+        <div class="lit-content">
+          <h4>Simulacra of Stories</h4>
+          <div class="lit-venue">Kapania et al. &mdash; CHI 2025</div>
+          <p>Established backstory-driven prompting as the state-of-the-art approach for generating coherent LLM personas. Demonstrated that narrative context produces richer, more consistent responses than demographic attribute lists.</p>
+          <span class="lit-tag method">Method &mdash; adopted</span>
+        </div>
+      </div>
+      <div class="lit-item">
+        <div class="lit-year">2025</div>
+        <div class="lit-content">
+          <h4>The Synthetic Persona Fallacy</h4>
+          <div class="lit-venue">ACM Interactions, 2025</div>
+          <p>Argues that LLM personas cannot represent real user diversity because they inherit training data biases and lack lived experience. Calls for empirical studies that measure, rather than assume, persona fidelity.</p>
+          <span class="lit-tag critique">Critique &mdash; motivates this study</span>
+        </div>
+      </div>
+      <div class="lit-item">
+        <div class="lit-year">2024</div>
+        <div class="lit-content">
+          <h4>Comparing Criteria Development with LLM Personas</h4>
+          <div class="lit-venue">ArXiv, 2024</div>
+          <p>Compared LLM-generated evaluation criteria against human-generated criteria for product assessment. Found overlap in high-level categories but divergence in specificity and contextual grounding.</p>
+          <span class="lit-tag method">Method &mdash; comparison framework reference</span>
+        </div>
+      </div>
+      <div class="lit-item">
+        <div class="lit-year">2025</div>
+        <div class="lit-content">
+          <h4>The LLM-ification of CHI</h4>
+          <div class="lit-venue">CHI 2025</div>
+          <p>Meta-analysis of LLM usage across CHI submissions, documenting the rapid adoption of LLMs as research tools and participants. Raises concerns about methodological rigor and reproducibility standards.</p>
+          <span class="lit-tag framework">Framework &mdash; contextualizes this work</span>
+        </div>
+      </div>
+      <div class="lit-item">
+        <div class="lit-year">2026</div>
+        <div class="lit-content">
+          <h4>PersonaCite</h4>
+          <div class="lit-venue">AAMAS 2026</div>
+          <p>Proposes a citation-based framework for verifying LLM persona claims against source evidence. Introduces metrics for measuring persona grounding and attribution accuracy.</p>
+          <span class="lit-tag framework">Framework &mdash; validation reference</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p><strong>This study's position:</strong> An empirical response to the theoretical critiques. Instead of debating whether synthetic personas <em>should</em> be used, we measure where they actually succeed and fail &mdash; providing actionable guidance for researchers deciding when LLM-based methods are appropriate.</p>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       7. REFLECTION & NEXT STEPS
+       ================================================================ -->
+  <section class="reveal">
+    <div class="section-label">
+      <span>Reflection &amp; Next Steps</span>
+    </div>
+
+    <div class="blockquote">
+      <p>Building Welfare Compass taught me to design AI systems for real users. This study asks whether we can simulate those users reliably &mdash; and what we lose when we try.</p>
+    </div>
+
+    <div class="progress-group is-done">
+      <div class="progress-badge done">Completed</div>
+      <ul class="progress-list">
+        <li>Literature review and research gap identification</li>
+        <li>Study design: three-way comparison framework with analysis coding scheme</li>
+        <li>Persona design: 8 synthetic profiles across 6 variable axes</li>
+        <li>Interview protocol: 14-turn structured interview with severity rating</li>
+        <li>Data collection method decision: API-based with multi-model cross-validation</li>
+      </ul>
+    </div>
+
+    <div class="progress-group is-wip">
+      <div class="progress-badge wip">In Progress</div>
+      <ul class="progress-list">
+        <li>Pilot interviews with LLM personas (prompt calibration)</li>
+        <li>Model comparison: Claude 3.5 Sonnet vs GPT-4o vs Gemini 1.5 Pro</li>
+        <li>Real user recruitment (developer + non-developer groups)</li>
+      </ul>
+    </div>
+
+    <div class="progress-group is-planned">
+      <div class="progress-badge planned">Planned</div>
+      <ul class="progress-list">
+        <li>Main experiment: full data collection across all three groups</li>
+        <li>Thematic analysis and Match / Blind Spot / Hallucination coding</li>
+        <li>Cross-model consensus analysis</li>
+        <li>Write-up and submission</li>
+      </ul>
+    </div>
+
+    <div style="margin-top: 2.5rem;">
+      <span class="t-heading-2">Future Directions</span>
+    </div>
+
+    <ul class="takeaway-list">
+      <li><strong>Model tier comparison.</strong> Do frontier models (GPT-4, Claude Opus) produce meaningfully different persona behavior than mid-tier models? The multi-model design enables direct comparison of persona fidelity across model capabilities.</li>
+      <li><strong>Incognito vs. informed personas.</strong> Testing whether personas that "know" they are being evaluated produce different feedback than those given no meta-awareness &mdash; probing the effect of evaluation context on synthetic behavior.</li>
+      <li><strong>Cross-domain generalization.</strong> Extending the comparison framework to other public services (healthcare navigation, tax filing assistance) to test whether the patterns found in welfare generalize or are domain-specific.</li>
+    </ul>
+
+    <div class="highlight-box" style="margin-top: 2rem;">
+      <p><strong>GT HCI connection:</strong> This research directly extends into the kind of work I want to pursue at Georgia Tech &mdash; developing rigorous methodologies for human-AI interaction research, and building empirical foundations for when and how AI-augmented research methods can be trusted in HCI practice.</p>
+    </div>
+
+    <div style="margin-top: 2rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+      <a href="https://github.com/finekiwi/llm-as-participant" target="_blank" rel="noopener" class="btn-secondary">View on GitHub &rarr;</a>
+      <a href="welfare-compass-v2.html" class="btn-secondary">View Welfare Compass v2 &rarr;</a>
+    </div>
+  </section>
+
+  <!-- BACK -->
+  <div class="back-section">
+    <a href="../index.html" class="btn-secondary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back to All Projects
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-credit">&copy; 2026 Yuna Sim</span>
+</footer>
+
+<!-- SCROLL REVEAL -->
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
