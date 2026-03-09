@@ -669,6 +669,21 @@
     font-size: 0.9rem;
   }
 
+  .project-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+  }
+  .project-status.wip {
+    background: #FFF8E1;
+    color: #B8860B;
+    border: 1px solid #F0E0A0;
+  }
+
   /* ==========================================================================
      PUBLICATIONS — Indexed list
      ========================================================================== */
@@ -986,7 +1001,139 @@
     <span class="t-heading-2">Projects</span>
   </div>
 
-  <!-- Welfare Compass -->
+  <!-- LLM-as-Participant -->
+  <div class="project-card reveal">
+    <div class="project-thumbnail" style="background: var(--accent-light); display: flex; align-items: center; justify-content: center; height: 280px; border-bottom: 1px solid var(--border);">
+      <svg width="280" height="180" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Three-way comparison diagram -->
+        <circle cx="80" cy="60" r="30" fill="none" stroke="#2D6A6A" stroke-width="2"/>
+        <text x="80" y="55" text-anchor="middle" fill="#2D6A6A" font-size="9" font-family="Inter">Developer</text>
+        <text x="80" y="67" text-anchor="middle" fill="#2D6A6A" font-size="9" font-family="Inter">(n≈5)</text>
+        <circle cx="200" cy="60" r="30" fill="none" stroke="#4A8E8E" stroke-width="2"/>
+        <text x="200" y="55" text-anchor="middle" fill="#4A8E8E" font-size="9" font-family="Inter">Non-Dev</text>
+        <text x="200" y="67" text-anchor="middle" fill="#4A8E8E" font-size="9" font-family="Inter">(n≈5)</text>
+        <circle cx="140" cy="140" r="30" fill="none" stroke="#B8860B" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="140" y="135" text-anchor="middle" fill="#B8860B" font-size="9" font-family="Inter">LLM</text>
+        <text x="140" y="147" text-anchor="middle" fill="#B8860B" font-size="9" font-family="Inter">Persona</text>
+        <line x1="107" y1="72" x2="173" y2="72" stroke="#E8E5E1" stroke-width="1"/>
+        <line x1="95" y1="84" x2="125" y2="116" stroke="#E8E5E1" stroke-width="1"/>
+        <line x1="185" y1="84" x2="155" y2="116" stroke="#E8E5E1" stroke-width="1"/>
+        <text x="140" y="90" text-anchor="middle" fill="#6B6B6B" font-size="8" font-family="Inter">Three-way Comparison</text>
+      </svg>
+    </div>
+    <div class="project-body">
+      <div class="project-header">
+        <div>
+          <h3>LLM-as-Participant</h3>
+          <p class="project-context">Independent Research · HCI Study · Feb 2026 – Present</p>
+        </div>
+        <div class="project-metric">
+          <span class="project-status wip">In Progress</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h4>Problem</h4>
+        <p>UX research requires real user recruitment — expensive, slow, and biased toward accessible populations. Can LLM-generated personas produce valid feedback as a supplementary research tool?</p>
+
+        <h4>Approach</h4>
+        <ul>
+          <li>Three-way comparison: developer (n≈5), non-developer (n≈5), and GPT-4o synthetic personas</li>
+          <li>Same task protocol on Welfare Compass v2, measuring usability scores and qualitative feedback</li>
+          <li>Mixed-methods analysis: SUS scores, thematic coding, sentiment divergence mapping</li>
+        </ul>
+
+        <h4>Outcome</h4>
+        <p>Pilot phase — designing study protocol, building persona prompts with structured demographic backgrounds, and preparing comparative analysis framework.</p>
+
+        <h4>Tech Stack</h4>
+        <div class="tech-stack">
+          <span class="tech-tag">GPT-4o</span>
+          <span class="tech-tag">Prompt Engineering</span>
+          <span class="tech-tag">SUS</span>
+          <span class="tech-tag">Thematic Analysis</span>
+          <span class="tech-tag">Mixed Methods</span>
+        </div>
+
+        <div class="hci-relevance">
+          <p><strong>HCI Relevance:</strong> Directly addresses the cost-validity tradeoff in user research — exploring whether synthetic participants can augment (not replace) human evaluation in early-stage design.</p>
+        </div>
+
+        <div class="project-actions">
+          <a href="projects/llm-as-participant.html" class="case-study-link">View Research Detail →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Welfare Compass v2 — Production Service -->
+  <div class="project-card reveal">
+    <div class="project-thumbnail" style="background: var(--accent-light); display: flex; align-items: center; justify-content: center; height: 280px; border-bottom: 1px solid var(--border);">
+      <svg width="280" height="180" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Architecture diagram -->
+        <rect x="95" y="10" rx="6" width="90" height="32" fill="none" stroke="#2D6A6A" stroke-width="1.5"/>
+        <text x="140" y="30" text-anchor="middle" fill="#2D6A6A" font-size="10" font-family="Inter">Next.js</text>
+        <line x1="140" y1="42" x2="140" y2="58" stroke="#E8E5E1" stroke-width="1"/>
+        <rect x="75" y="58" rx="6" width="130" height="32" fill="none" stroke="#2D6A6A" stroke-width="1.5"/>
+        <text x="140" y="78" text-anchor="middle" fill="#2D6A6A" font-size="10" font-family="Inter">Django REST API</text>
+        <line x1="100" y1="90" x2="70" y2="110" stroke="#E8E5E1" stroke-width="1"/>
+        <line x1="140" y1="90" x2="140" y2="110" stroke="#E8E5E1" stroke-width="1"/>
+        <line x1="180" y1="90" x2="210" y2="110" stroke="#E8E5E1" stroke-width="1"/>
+        <rect x="25" y="110" rx="6" width="90" height="32" fill="none" stroke="#4A8E8E" stroke-width="1.5"/>
+        <text x="70" y="130" text-anchor="middle" fill="#4A8E8E" font-size="9" font-family="Inter">PostgreSQL</text>
+        <rect x="95" y="110" rx="6" width="90" height="32" fill="none" stroke="#4A8E8E" stroke-width="1.5"/>
+        <text x="140" y="130" text-anchor="middle" fill="#4A8E8E" font-size="9" font-family="Inter">LangGraph</text>
+        <rect x="165" y="110" rx="6" width="90" height="32" fill="none" stroke="#4A8E8E" stroke-width="1.5"/>
+        <text x="210" y="130" text-anchor="middle" fill="#4A8E8E" font-size="9" font-family="Inter">Hybrid Search</text>
+        <line x1="140" y1="142" x2="140" y2="158" stroke="#E8E5E1" stroke-width="1"/>
+        <text x="140" y="170" text-anchor="middle" fill="#B8860B" font-size="9" font-family="Inter" font-style="italic">ReAct Agent · BM25 + Dense + BGE</text>
+      </svg>
+    </div>
+    <div class="project-body">
+      <div class="project-header">
+        <div>
+          <h3>Welfare Compass — Production Service</h3>
+          <p class="project-context">Team of 3 · Full-Stack Rebuild · Jan–Mar 2026</p>
+        </div>
+        <div class="project-metric">
+          <span class="project-status wip">In Progress</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h4>Problem</h4>
+        <p>The hackathon prototype had no persistent state and a simplistic retrieval pipeline — couldn't scale for real users with diverse eligibility conditions.</p>
+
+        <h4>Approach</h4>
+        <ul>
+          <li>Django + Next.js full-stack architecture with persistent user profiles and eligibility engine</li>
+          <li>LangGraph ReAct Agent replacing sequential RAG with autonomous reasoning + tool use</li>
+          <li>Hybrid search pipeline: BM25 + Dense (BGE-m3) + Cross-encoder reranking</li>
+        </ul>
+
+        <h4>Outcome</h4>
+        <p>Architecture designed and core modules under active development. Production deployment planned for March 2026.</p>
+
+        <h4>Tech Stack</h4>
+        <div class="tech-stack">
+          <span class="tech-tag">Django</span>
+          <span class="tech-tag">Next.js</span>
+          <span class="tech-tag">LangGraph</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">BM25 + Dense</span>
+          <span class="tech-tag">BGE-m3</span>
+        </div>
+
+        <div class="hci-relevance">
+          <p><strong>HCI Relevance:</strong> Evolving a prototype to a real service — designing persistent conversation flow and eligibility-aware recommendations for users with low digital literacy.</p>
+        </div>
+
+        <div class="project-actions">
+          <a href="projects/welfare-compass-v2.html" class="case-study-link">View Full Case Study →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Welfare Compass (Hackathon) -->
   <div class="project-card reveal">
     <div class="project-video-poster" style="background-image: url('images/Youtube_thumbnail.png')" onclick="this.outerHTML='<iframe class=\'project-thumbnail-video\' src=\'https://www.youtube.com/embed/TMOHp0wMUXM?autoplay=1\' title=\'Welfare Compass Demo\' allowfullscreen></iframe>'">
       <div class="play-btn"></div>
@@ -1030,7 +1177,7 @@
         </div>
 
         <div class="project-actions">
-          <a href="welfare-compass.html" class="case-study-link">View Full Case Study →</a>
+          <a href="projects/welfare-compass.html" class="case-study-link">View Full Case Study →</a>
           <a href="https://welfare-compass.streamlit.app" target="_blank" rel="noopener" class="btn-primary btn-sm">Try Live Demo →</a>
         </div>
       </div>
@@ -1078,7 +1225,7 @@
         </div>
 
         <div class="project-actions">
-          <a href="drama-color.html" class="case-study-link">View Full Case Study &rarr;</a>
+          <a href="projects/drama-color.html" class="case-study-link">View Full Case Study &rarr;</a>
         </div>
       </div>
     </div>
@@ -1125,7 +1272,7 @@
         </div>
 
         <div class="project-actions">
-          <a href="welding.html" class="case-study-link">View Full Case Study &rarr;</a>
+          <a href="projects/welding.html" class="case-study-link">View Full Case Study &rarr;</a>
         </div>
       </div>
     </div>
